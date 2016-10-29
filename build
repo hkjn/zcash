@@ -1,0 +1,21 @@
+#!/bin/bash
+set -euo pipefail
+
+DOCKER_USER="hkjn"
+DOCKER_IMAGE="zcash"
+
+ARCH="$(uname -m)"
+BUILD_DIR="$(mktemp -d)"
+
+cp Dockerfile "$BUILD_DIR/"
+[[ $ARCH = "x86_64" ]] || {
+  sed -i "s/FROM hkjn\//FROM hkjn\/$ARCH-/" "$BUILD_DIR/Dockerfile"
+  DOCKER_IMAGE="$ARCH-$DOCKER_IMAGE"
+}
+
+TAG="$DOCKER_USER/$DOCKER_IMAGE"
+
+echo "Building $TAG in $BUILD_DIR"
+docker build -t $TAG "$BUILD_DIR/"
+NO_PUSH=${NO_PUSH:-""}
+[[ "$NO_PUSH" ]] || docker push $TAG
