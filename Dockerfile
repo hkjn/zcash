@@ -1,3 +1,13 @@
+# Zcash image.
+#
+# Set number of mining threads:
+# zcashd -gen -t 16
+#
+# Get info:
+# zcash-cli getinfo
+#
+# tail -f 
+#
 FROM debian:jessie
 
 MAINTAINER Henrik Jonsson <me@hkjn.me>
@@ -40,9 +50,3 @@ RUN echo "rpcuser=zcash" > ${ZCASH_CONF} && \
   echo "Success"
 
 VOLUME ["/home/zcash/.zcash"]
-
-# Set number of mining threads:
-# zcashd -gen -t 16
-
-#
-# zcash-cli getinfo
