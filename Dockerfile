@@ -1,7 +1,7 @@
 # Zcash image.
 #
 # Set number of mining threads:
-# zcashd -gen -t 16
+# zcashd -gen
 #
 # Get info:
 # zcash-cli getinfo
@@ -48,5 +48,7 @@ RUN echo "rpcuser=zcash" > ${ZCASH_CONF} && \
   echo "genproclimit=4" >> ${ZCASH_CONF} && \
   echo "equihashsolver=tromp" >> ${ZCASH_CONF} && \
   echo "Success"
+
+WORKDIR /home/zcash
 
 VOLUME ["/home/zcash/.zcash"]
