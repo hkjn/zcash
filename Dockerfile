@@ -6,7 +6,8 @@
 # Get info:
 # zcash-cli getinfo
 #
-# tail -f 
+# Follow debug.log:
+# tail -f .zcash/debug.log
 #
 FROM debian:jessie
 
