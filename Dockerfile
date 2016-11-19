@@ -14,7 +14,7 @@ FROM debian:jessie
 MAINTAINER Henrik Jonsson <me@hkjn.me>
 
 ENV ZCASH_URL=https://github.com/zcash/zcash.git \
-    ZCASH_VERSION=v1.0.0 \
+    ZCASH_VERSION=v1.0.3 \
     ZCASH_CONF=/home/zcash/.zcash/zcash.conf
 
 RUN apt-get autoclean && \
