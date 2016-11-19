@@ -1,0 +1,33 @@
+FROM aarch64/debian
+
+ENV ZCASH_VERSION=1.0.3
+    ZCASH_CONF=/home/zcash/.zcash/zcash.conf
+
+RUN apt-get -y update && \
+    apt-get -y install curl libgomp1 wget pwgen && \
+    curl -O https://zcash.dl.mercerweiss.com/zcash-${ZCASH_VERSION}-arm64.deb && \
+    dpkg -i zcash-1.0.3-arm64.deb && \
+    git clone https://github.com/zcash/zcash.git && \
+    cd zcash && \
+    git checkout $ZCASH_VERSION && \
+    ./zcutil/fetch-params.sh && \
+    ./zcutil/fetch-params.sh && \
+    adduser --uid 1000 --system zcash && \
+    mv /root/.zcash-params /home/zcash/ && \
+    mkdir -p /home/zcash/.zcash/ && \
+    chown -R zcash /home/zcash && \
+    echo "Success"
+
+USER zcash
+
+RUN echo "rpcuser=zcash" > ${ZCASH_CONF} && \
+  echo "rpcpassword=$(pwgen 40 1)" >> ${ZCASH_CONF} && \
+  echo "testnet=0" >> ${ZCASH_CONF} && \
+  echo "addnode=mainnet.z.cash" >> ${ZCASH_CONF} && \
+  echo "genproclimit=92" >> ${ZCASH_CONF} && \
+  echo "equihashsolver=tromp" >> ${ZCASH_CONF} && \
+  echo "Success"
+
+WORKDIR /home/zcash
+
+VOLUME ["/home/zcash/.zcash"]
